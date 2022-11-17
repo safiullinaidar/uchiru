@@ -1,16 +1,33 @@
-# есть таблица parents
-# id int
-# name varchar
-# created_at datetime
+# функция, которая имитирует работу светофора: на вход она получает один из цветов в виде строки,
+# на выходе будет результат
+def traffic_lights(color)
+  case color
+  when "Red" then "Стойте"
+  when "Yellow" then "Ждите"
+  when "Green" then "Идите"
+  else "Это не цвет светофора!"
+  end
+end
 
-# количество студентов с родителями
-AR:  Student.where.not(parent_id: nil).count
-SQL: SELECT COUNT(*) FROM students WHERE parent_id IS NOT NULL;
+# консольная программа, которая не прекращает работу после однократного вызова,
+# а ждет следующих запросов
+until false
+  puts "Введите цвет светофора:"
+  color = $stdin.gets.chomp
 
-# количество студентов с родителями при том что имя родителя Марина
-AR:  Student.joins(:parents).where.not(parent_id: nil).where(name: "Марина").count
-SQL: SELECT COUNT(*) FROM students INNER JOIN parents ON students.parent_id = parents.id WHERE parents.name = 'Марина';
+  puts traffic_lights(color)
+end
 
-# количество студентов без родителя
-AR:  Student.where(parent_id: nil).count
-SQL: SELECT COUNT(*) FROM students WHERE parent_id IS NULL;
+# обработка некорректных данных + возможность юзеру завершить работу программы
+color = ""
+
+until false
+  puts "Введите цвет светофора (для выхода нажмите 0):"
+  color = $stdin.gets.capitalize.chomp
+
+  if color.eql?("0")
+    abort "Вы вышли из программы"
+  end
+
+  puts traffic_lights(color)
+end

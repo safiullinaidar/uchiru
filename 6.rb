@@ -1,17 +1,20 @@
-# есть таблица students с колонками
-# id int
-# name varchar
-# created_at datetime
-# parent_id int
+# функция, которая переводит градусы по Цельсию в градусы по Фаренгейту
+def temperature_converter(temp)
+  temp * 1.8 + 32
+end
 
-# количество всех студентов
-AR:  Student.all.count
-SQL: SELECT COUNT(*) FROM students;
+# консольная программа, которая просит юзера ввести число (градусы по Цельсию) 
+# и переводит его в Фаренгейты
+puts "Введите температуру в градусах по Цельсию:"
+temp = STDIN.gets.to_f
+puts "Значение температуры в градусах по Фаренгейту равно: #{temperature_converter(temp)}"
 
-# количество студентов с именем Иван
-AR:  Student.where(name: "Иван").count
-SQL: SELECT COUNT(name) FROM students WHERE name = 'Иван';
+# обработка ошибок, если юзер ввел неправильные данные
+temp = ""
 
-# количество студентов созданных после 1 сентября 2020 года
-AR:  Student.where("created_at > ?", 01.01.2020).count
-SQL: SELECT COUNT(created_at) FROM students WHERE created_at > '1.09.2020';
+until temp.match?(/\A-?\d+\z/)
+  puts "Введите корректное значение температуры в градусах по Цельсию:"
+  temp = STDIN.gets.chomp
+end
+
+puts "Значение температуры в градусах по Фаренгейту равно: #{temperature_converter(temp.to_f)}"
